@@ -4,9 +4,13 @@
  */
 package Vista;
 
+import BDD.ConexionBDD;
 import Controlador.UsuarioControlador;
 import Modelo.UsuarioModelo;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+
 
 
 
@@ -29,10 +33,12 @@ public class VistaUsuario extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
         //CODIGO JSPLITPANE
-    jSplitPane1.setDividerLocation(300);
-    jSplitPane1.setResizeWeight(0.4);
-    jSplitPane1.setOneTouchExpandable(true);
+        jSplitPane1.setDividerLocation(300);
+        jSplitPane1.setResizeWeight(0.4);
+        jSplitPane1.setOneTouchExpandable(true);
         
+        // Cargar la tabla al iniciar la ventana
+        cargarTablaUsuarios();
        
     }
     
@@ -40,7 +46,51 @@ public class VistaUsuario extends javax.swing.JFrame {
         ComboRol.addItem("Administrador");
         ComboRol.addItem("Usuario");
     }
- 
+     private void cargarTablaUsuarios() {
+        // Modelo de la tabla (no editable)
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // La tabla no se puede editar directamente
+            }
+        };
+        
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Rol");
+
+        try {
+            ConexionBDD conexionBDD = new ConexionBDD();
+            Connection conexion = conexionBDD.conectar();
+            
+            String sql = "SELECT idUsuario, nombre, rol FROM usuarios ORDER BY idUsuario";
+            PreparedStatement pstmt = conexion.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                Object[] fila = {
+                    rs.getInt("idUsuario"),
+                    rs.getString("nombre"),
+                    rs.getString("rol")
+                };
+                modelo.addRow(fila);
+            }
+            
+            rs.close();
+            pstmt.close();
+            conexion.close();
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar usuarios: " + e.getMessage());
+        }
+        
+        TablaUsuarios.setModel(modelo);
+        
+        // Opcional: ajustar ancho de columnas para que quede bonito
+        TablaUsuarios.getColumnModel().getColumn(0).setPreferredWidth(50);  // ID
+        TablaUsuarios.getColumnModel().getColumn(1).setPreferredWidth(200); // Nombre
+        TablaUsuarios.getColumnModel().getColumn(2).setPreferredWidth(150); // Rol
+    }
 
 
     /**
@@ -54,21 +104,23 @@ public class VistaUsuario extends javax.swing.JFrame {
 
         jSplitPane1 = new javax.swing.JSplitPane();
         PanelDatos = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         lblRol = new javax.swing.JLabel();
         ComboRol = new javax.swing.JComboBox<>();
         btnGuardar = new javax.swing.JButton();
         PanelTabla = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaUsuarios = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         PanelDatos.setBackground(new java.awt.Color(153, 153, 153));
         PanelDatos.setForeground(new java.awt.Color(51, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 102, 102));
-        jLabel1.setText("Nombre");
+        lblNombre.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        lblNombre.setForeground(new java.awt.Color(0, 102, 102));
+        lblNombre.setText("Nombre");
 
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,7 +158,7 @@ public class VistaUsuario extends javax.swing.JFrame {
                         .addGroup(PanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ComboRol, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblRol)
-                            .addComponent(jLabel1)
+                            .addComponent(lblNombre)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(PanelDatosLayout.createSequentialGroup()
                         .addGap(77, 77, 77)
@@ -117,7 +169,7 @@ public class VistaUsuario extends javax.swing.JFrame {
             PanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelDatosLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jLabel1)
+                .addComponent(lblNombre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -134,15 +186,36 @@ public class VistaUsuario extends javax.swing.JFrame {
         PanelTabla.setBackground(new java.awt.Color(255, 204, 204));
         PanelTabla.setForeground(new java.awt.Color(255, 204, 204));
 
+        TablaUsuarios.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        TablaUsuarios.setForeground(new java.awt.Color(0, 102, 102));
+        TablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ID", "Nombre", "Rol"
+            }
+        ));
+        jScrollPane1.setViewportView(TablaUsuarios);
+
         javax.swing.GroupLayout PanelTablaLayout = new javax.swing.GroupLayout(PanelTabla);
         PanelTabla.setLayout(PanelTablaLayout);
         PanelTablaLayout.setHorizontalGroup(
             PanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 544, Short.MAX_VALUE)
+            .addGroup(PanelTablaLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(9, Short.MAX_VALUE))
         );
         PanelTablaLayout.setVerticalGroup(
             PanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 471, Short.MAX_VALUE)
+            .addGroup(PanelTablaLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(158, Short.MAX_VALUE))
         );
 
         jSplitPane1.setRightComponent(PanelTabla);
@@ -161,7 +234,7 @@ public class VistaUsuario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -179,6 +252,8 @@ public class VistaUsuario extends javax.swing.JFrame {
             if(guardado){
                 JOptionPane.showMessageDialog(this, "Usuario guardado");
                 txtNombre.setText("");
+                // ¡Actualizar la tabla automáticamente!
+                cargarTablaUsuarios();
             }else {
                 JOptionPane.showMessageDialog(this, "Error al guardar");
             }
@@ -240,9 +315,11 @@ public class VistaUsuario extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> ComboRol;
     private javax.swing.JPanel PanelDatos;
     private javax.swing.JPanel PanelTabla;
+    private javax.swing.JTable TablaUsuarios;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblRol;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
