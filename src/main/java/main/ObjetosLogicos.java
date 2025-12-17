@@ -4,7 +4,7 @@
 
 package main;
 
-import Vista.VistaJComboBox;
+import Vista.VistaUsuario;
 
 
 
@@ -17,7 +17,7 @@ import Vista.VistaJComboBox;
 public class ObjetosLogicos {
 
     public static void main(String[] args) {
-     VistaJComboBox miVentana = new VistaJComboBox();
+     VistaUsuario miVentana = new VistaUsuario();
      miVentana.setVisible(true);
     
     }
