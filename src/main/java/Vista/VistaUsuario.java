@@ -39,6 +39,43 @@ public class VistaUsuario extends javax.swing.JFrame {
         
         // Cargar la tabla al iniciar la ventana
         cargarTablaUsuarios();
+        
+        // JSlider interactivo - muestra el valor en tiempo real
+              
+        sliderNivel.addChangeListener(e -> {
+            int valor = sliderNivel.getValue();
+            
+            if (valor == 100) {
+                lblNivelActual.setText("Acceso permitido");
+                lblNivelActual.setForeground(new java.awt.Color(0, 153, 0)); // Verde oscuro
+            } else {
+                lblNivelActual.setText("Acceso denegado (necesitas nivel 100)");
+                lblNivelActual.setForeground(new java.awt.Color(204, 0, 0)); // Rojo
+            }
+        });
+        
+        
+        
+        
+        
+        // Botón para iniciar animación automática del slider hasta 100
+        btnAnimar.addActionListener(e -> {
+            new Thread(() -> {
+                int valorInicial = sliderNivel.getValue();
+                for (int i = valorInicial; i <= 100; i++) {
+                    final int valor = i;
+                    java.awt.EventQueue.invokeLater(() -> {
+                        sliderNivel.setValue(valor);
+                        // El ChangeListener ya actualiza el texto y la barra automáticamente
+                    });
+                    try {
+                        Thread.sleep(50); // Velocidad de la animación (50ms = suave y rápido)
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }).start();
+        });
        
     }
     
@@ -112,6 +149,10 @@ public class VistaUsuario extends javax.swing.JFrame {
         PanelTabla = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaUsuarios = new javax.swing.JTable();
+        sliderNivel = new javax.swing.JSlider();
+        lblTituloSlider = new javax.swing.JLabel();
+        lblNivelActual = new javax.swing.JLabel();
+        btnAnimar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -185,6 +226,7 @@ public class VistaUsuario extends javax.swing.JFrame {
 
         PanelTabla.setBackground(new java.awt.Color(255, 204, 204));
         PanelTabla.setForeground(new java.awt.Color(255, 204, 204));
+        PanelTabla.setLayout(new java.awt.BorderLayout());
 
         TablaUsuarios.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         TablaUsuarios.setForeground(new java.awt.Color(0, 102, 102));
@@ -201,24 +243,26 @@ public class VistaUsuario extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(TablaUsuarios);
 
-        javax.swing.GroupLayout PanelTablaLayout = new javax.swing.GroupLayout(PanelTabla);
-        PanelTabla.setLayout(PanelTablaLayout);
-        PanelTablaLayout.setHorizontalGroup(
-            PanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelTablaLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
-        );
-        PanelTablaLayout.setVerticalGroup(
-            PanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelTablaLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(158, Short.MAX_VALUE))
-        );
+        PanelTabla.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jSplitPane1.setRightComponent(PanelTabla);
+        PanelTabla.getAccessibleContext().setAccessibleDescription("");
+
+        sliderNivel.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        sliderNivel.setForeground(new java.awt.Color(0, 102, 102));
+        sliderNivel.setValue(0);
+
+        lblTituloSlider.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        lblTituloSlider.setForeground(new java.awt.Color(0, 102, 102));
+        lblTituloSlider.setText("Nivel de acceso");
+
+        lblNivelActual.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        lblNivelActual.setForeground(new java.awt.Color(0, 102, 102));
+        lblNivelActual.setText("Nivel Actual: 0");
+
+        btnAnimar.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        btnAnimar.setForeground(new java.awt.Color(0, 102, 102));
+        btnAnimar.setText("Iniciar su acceso");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -228,13 +272,36 @@ public class VistaUsuario extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jSplitPane1)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTituloSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(257, 257, 257))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblNivelActual, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(btnAnimar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(sliderNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(84, 84, 84))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(26, 26, 26)
                 .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTituloSlider)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sliderNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAnimar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblNivelActual)
+                .addContainerGap())
         );
 
         pack();
@@ -316,11 +383,15 @@ public class VistaUsuario extends javax.swing.JFrame {
     private javax.swing.JPanel PanelDatos;
     private javax.swing.JPanel PanelTabla;
     private javax.swing.JTable TablaUsuarios;
+    private javax.swing.JButton btnAnimar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JLabel lblNivelActual;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblRol;
+    private javax.swing.JLabel lblTituloSlider;
+    private javax.swing.JSlider sliderNivel;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
