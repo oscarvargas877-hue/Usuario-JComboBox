@@ -60,7 +60,6 @@ public class VistaUsuario extends javax.swing.JFrame {
         ComboRol = new javax.swing.JComboBox<>();
         btnGuardar = new javax.swing.JButton();
         PanelTabla = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -135,23 +134,15 @@ public class VistaUsuario extends javax.swing.JFrame {
         PanelTabla.setBackground(new java.awt.Color(255, 204, 204));
         PanelTabla.setForeground(new java.awt.Color(255, 204, 204));
 
-        jLabel2.setText("AQUI APARECERA EL JTABLE EN LA PROXIMA RAMA");
-
         javax.swing.GroupLayout PanelTablaLayout = new javax.swing.GroupLayout(PanelTabla);
         PanelTabla.setLayout(PanelTablaLayout);
         PanelTablaLayout.setHorizontalGroup(
             PanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelTablaLayout.createSequentialGroup()
-                .addGap(139, 139, 139)
-                .addComponent(jLabel2)
-                .addContainerGap(126, Short.MAX_VALUE))
+            .addGap(0, 544, Short.MAX_VALUE)
         );
         PanelTablaLayout.setVerticalGroup(
             PanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelTablaLayout.createSequentialGroup()
-                .addGap(120, 120, 120)
-                .addComponent(jLabel2)
-                .addContainerGap(335, Short.MAX_VALUE))
+            .addGap(0, 471, Short.MAX_VALUE)
         );
 
         jSplitPane1.setRightComponent(PanelTabla);
@@ -162,7 +153,7 @@ public class VistaUsuario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 818, Short.MAX_VALUE)
+                .addComponent(jSplitPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -251,7 +242,6 @@ public class VistaUsuario extends javax.swing.JFrame {
     private javax.swing.JPanel PanelTabla;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JLabel lblRol;
     private javax.swing.JTextField txtNombre;
