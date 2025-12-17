@@ -39,24 +39,31 @@ public class VistaUsuario extends javax.swing.JFrame {
         
         // Cargar la tabla al iniciar la ventana
         cargarTablaUsuarios();
-        
-        // JSlider interactivo - muestra el valor en tiempo real
+
               
+         // JSlider interactivo  controla el JProgressBar y el acceso
         sliderNivel.addChangeListener(e -> {
             int valor = sliderNivel.getValue();
             
+            // Actualizar la JProgressBar
+            progressNivel.setValue(valor);
+            progressNivel.setString(valor + "%");
+            progressNivel.setStringPainted(true); // Asegura que muestre el porcentaje
+            
+            // Lógica de acceso en el JLabel
             if (valor == 100) {
                 lblNivelActual.setText("Acceso permitido");
                 lblNivelActual.setForeground(new java.awt.Color(0, 153, 0)); // Verde oscuro
+                progressNivel.setForeground(new java.awt.Color(0, 153, 0)); // Barra verde
             } else {
                 lblNivelActual.setText("Acceso denegado (necesitas nivel 100)");
                 lblNivelActual.setForeground(new java.awt.Color(204, 0, 0)); // Rojo
+                progressNivel.setForeground(new java.awt.Color(204, 0, 0)); // Barra roja
             }
         });
         
-        
-        
-        
+      
+      
         
         // Botón para iniciar animación automática del slider hasta 100
         btnAnimar.addActionListener(e -> {
@@ -153,6 +160,7 @@ public class VistaUsuario extends javax.swing.JFrame {
         lblTituloSlider = new javax.swing.JLabel();
         lblNivelActual = new javax.swing.JLabel();
         btnAnimar = new javax.swing.JButton();
+        progressNivel = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -264,6 +272,10 @@ public class VistaUsuario extends javax.swing.JFrame {
         btnAnimar.setForeground(new java.awt.Color(0, 102, 102));
         btnAnimar.setText("Iniciar su acceso");
 
+        progressNivel.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        progressNivel.setForeground(new java.awt.Color(51, 255, 51));
+        progressNivel.setStringPainted(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -274,19 +286,14 @@ public class VistaUsuario extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTituloSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(257, 257, 257))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblNivelActual, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(101, 101, 101)
-                        .addComponent(btnAnimar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sliderNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(84, 84, 84))
+                .addComponent(btnAnimar)
+                .addGap(72, 72, 72)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblNivelActual, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTituloSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sliderNivel, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+                    .addComponent(progressNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(61, 61, 61))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,13 +302,15 @@ public class VistaUsuario extends javax.swing.JFrame {
                 .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTituloSlider)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAnimar)
+                    .addComponent(sliderNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sliderNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAnimar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblNivelActual)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(progressNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -391,6 +400,7 @@ public class VistaUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblRol;
     private javax.swing.JLabel lblTituloSlider;
+    private javax.swing.JProgressBar progressNivel;
     private javax.swing.JSlider sliderNivel;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
