@@ -34,41 +34,41 @@ public class Colecciones {
                     + "El número elevado al cubo es:" + String.format("%.2f", cubo));
         }
         System.out.println("\n");
-////Ejercicio 2:
-////Crea una lista e inicializala con 5 cadenas de caracteres leídas por teclado. 
-////Copia los elementos de la lista en otra lista pero en orden inverso,
-////y muestra sus elementos por la pantalla.
-//        int n = 4;
-//        String[] listados = new String[5];
-//        String[] Listauno = new String[5];
-//        String[] listaTres = new String[5];
-//        for (int i = 0; i < 5; i++) {
-//            Listauno[i] = JOptionPane.showInputDialog("ingrese una palabra");
-//            listados[n] = Listauno[i];
-//            n--;
-//
-//        }
-//        int y = 0;
-//        for (String puntero : Listauno) {
-//            String reversa = "";
-//
-//            for (int i = puntero.length() - 1; i >= 0; i--) {
-//                reversa += puntero.charAt(i);
-//            }
-//            listaTres[y] = reversa;
-//            y++;
-//            System.out.println("puntero:" + puntero + "\n" + "reversa:" + reversa);
-//        }
-//
-//        for (String puntero : listados) {
-//            System.out.println("puntero2:" + puntero);
-//
-//        }
-//        for (String puntero : listaTres) {
-//            System.out.println("puntero3:" + puntero);
-//
-//        }
-//
+//Ejercicio 2:
+//Crea una lista e inicializala con 5 cadenas de caracteres leídas por teclado. 
+//Copia los elementos de la lista en otra lista pero en orden inverso,
+//y muestra sus elementos por la pantalla.
+        int n = 4;
+        String[] listados = new String[5];
+        String[] Listauno = new String[5];
+        String[] listaTres = new String[5];
+        for (int i = 0; i < 5; i++) {
+            Listauno[i] = JOptionPane.showInputDialog("ingrese una palabra");
+            listados[n] = Listauno[i];
+            n--;
+
+        }
+        int y = 0;
+        for (String puntero : Listauno) {
+            String reversa = "";
+
+            for (int i = puntero.length() - 1; i >= 0; i--) {
+                reversa += puntero.charAt(i);
+            }
+            listaTres[y] = reversa;
+            y++;
+            System.out.println("puntero:" + puntero + "\n" + "reversa:" + reversa);
+        }
+
+        for (String puntero : listados) {
+            System.out.println("puntero2:" + puntero);
+
+        }
+        for (String puntero : listaTres) {
+            System.out.println("puntero3:" + puntero);
+
+        }
+
 
  //Ejercicio 3:
 //Se quiere realizar un programa que lea por teclado las 5 notas obtenidas por un alumno 

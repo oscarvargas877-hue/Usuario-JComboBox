@@ -101,7 +101,7 @@ public class Listas {
         
         // Validar que esté entre 1 y 12
         if (mes >= 1 && mes <= 12) {
-            // Mostrar resultado restamos 1 porque los arreglos empiezan en 0)
+            // Mostrar resultado restamos 1 porque los arreglos empiezan en 0
             System.out.println("Mes: " + nombresMeses[mes - 1]);
             System.out.println("Días: " + diasMeses[mes - 1]);
         } else {
