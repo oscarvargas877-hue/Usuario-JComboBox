@@ -7,6 +7,17 @@ package Vista;
 import BDD.ConexionBDD;
 import Controlador.UsuarioControlador;
 import Modelo.UsuarioModelo;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
@@ -161,6 +172,7 @@ public class VistaUsuario extends javax.swing.JFrame {
         lblNivelActual = new javax.swing.JLabel();
         btnAnimar = new javax.swing.JButton();
         progressNivel = new javax.swing.JProgressBar();
+        btnPdf = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -276,6 +288,13 @@ public class VistaUsuario extends javax.swing.JFrame {
         progressNivel.setForeground(new java.awt.Color(51, 255, 51));
         progressNivel.setStringPainted(true);
 
+        btnPdf.setText("Generar PDF");
+        btnPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPdfActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -285,9 +304,15 @@ public class VistaUsuario extends javax.swing.JFrame {
                 .addComponent(jSplitPane1)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAnimar)
-                .addGap(72, 72, 72)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAnimar)
+                        .addGap(72, 72, 72))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(98, 98, 98)
+                        .addComponent(btnPdf)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblNivelActual, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTituloSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -302,15 +327,21 @@ public class VistaUsuario extends javax.swing.JFrame {
                 .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTituloSlider)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAnimar)
-                    .addComponent(sliderNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblNivelActual)
-                .addGap(18, 18, 18)
-                .addComponent(progressNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAnimar)
+                            .addComponent(sliderNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblNivelActual)
+                        .addGap(18, 18, 18)
+                        .addComponent(progressNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(16, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnPdf)
+                        .addGap(39, 39, 39))))
         );
 
         pack();
@@ -350,6 +381,43 @@ public class VistaUsuario extends javax.swing.JFrame {
         ComboRol.requestFocus();
 
     }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void btnPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfActionPerformed
+        // TODO add your handling code here:
+
+ Document document = new Document();
+            UsuarioModelo p = new UsuarioModelo();
+            p.setNombre(txtNombre.getText());
+           
+  
+            
+
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream("prueba1"+ txtNombre.getText()+".pdf"));
+            document.open();
+            // Establecer márgenes
+            document.setMargins(50, 50, 50, 50);
+
+            // Establecer tamaño de página
+            document.setPageSize(PageSize.A4);
+            // Crear una fuente con estilo y tamaño específicos
+            Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLUE);
+
+            // Crear un párrafo con la fuente especificada
+            Paragraph paragraph = new Paragraph("Reporte formulario usuarios", font);
+            paragraph.setAlignment(Element.ALIGN_CENTER);
+            document.add(paragraph);
+            Font font1 = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.DARK_GRAY);
+            // Añadir espaciado antes del párrafo
+            Paragraph paragraph1 = new Paragraph(p.toString(), font1);
+            paragraph1.setSpacingBefore(10);
+            paragraph1.setAlignment(Element.ALIGN_LEFT);
+            document.add(paragraph1);
+
+            document.close();
+            JOptionPane.showMessageDialog(this, "PDF generado correctamente.");
+        } catch (DocumentException | IOException e) {   }
+    }//GEN-LAST:event_btnPdfActionPerformed
 
     /**
      * @param args the command line arguments
@@ -394,6 +462,7 @@ public class VistaUsuario extends javax.swing.JFrame {
     private javax.swing.JTable TablaUsuarios;
     private javax.swing.JButton btnAnimar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnPdf;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JLabel lblNivelActual;

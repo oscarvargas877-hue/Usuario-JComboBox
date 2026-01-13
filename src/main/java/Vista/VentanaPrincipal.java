@@ -77,7 +77,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
         // TODO add your handling code here:
-      try {
+      
         int[] lista1 = new int[5];
         int[] lista2 = new int[5];
 
@@ -89,7 +89,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 txtResultado.setText("Operación cancelada.");
                 return;
             }
-            lista1[i] = Integer.parseInt(input.trim());
+            lista1[i] = Integer.parseInt(input.trim());// .trim: sirve para eliminar espacios en blanco al principio y al final 
         }
 
         // Ingresar lista 2 (5 números)
@@ -113,7 +113,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // Multiplicar en diagonal
         for (int i = 0; i < 5; i++) {
             int num1 = lista1[i];
-            int num2 = lista2[4 - i]; // 4, 3, 2, 1, 0 → inverso de lista2
+            int num2 = lista2[4 - i]; // 4, 3, 2, 1, 0  inverso de lista2
             int producto = num1 * num2;
 
             boolean esPrimo = calculadora.esPrimo(producto);
@@ -133,25 +133,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         txtResultado.setText(salida.toString());
 
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this,
-            "Error: Debe ingresar números enteros válidos.",
-            "Entrada inválida",
-            JOptionPane.ERROR_MESSAGE);
-        txtResultado.setText("Error en la entrada de datos.");
-    }
     }//GEN-LAST:event_btnMostrarActionPerformed
-// Convierte un arreglo a String tipo [1, 2, 3]
-private String arrayToString(int[] arr) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("[");
-    for (int i = 0; i < arr.length; i++) {
-        sb.append(arr[i]);
-        if (i < arr.length - 1) sb.append(", ");
+    // Convierte un arreglo a String tipo [1, 2, 3]
+    private String arrayToString(int[] arr) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i]);
+            if (i < arr.length - 1) sb.append(", ");
+        }
+        sb.append("]");
+        return sb.toString();
     }
-    sb.append("]");
-    return sb.toString();
-}
     
  
 
